@@ -6,7 +6,7 @@
 int main(int argc, char **argv)
 {
   Arvore *arvore;
-  inicializa(&Arvore);
+  inicializa(&arvore);
 
   return 0;
 }

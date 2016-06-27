@@ -1,6 +1,6 @@
 typedef struct Arvore
 {
-  int coordenadas;
+  int dado;
   struct Arvore *dir;
   struct Arvore *esq;
 } Arvore;
