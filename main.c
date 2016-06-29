@@ -1,35 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "base.h"
 #include "pilha.h"
+#include "arvore.h"
 
 
 int main(int argc, char **argv)
 {
-  // Arvore *arv;
-  // inicializa(&arv);
+  // char expression[] = {'A','B','C','+','*','D','/'}; // para testes
 
-  // int dado;
-  // printf("\nInforme um número positivo ou zero para parar:");
-  // scanf("%d", &dado);
-  // while(dado != 0)
-  // {
-  //   arv = insere_no_arvore(arv, arv, dado);
-  //   printf("\nInforme um número positivo ou zero para parar:");
-  //   scanf("%d", &dado);
-  // }
+  // int c = ('2' - '0') + ('3' - '0');
+  // printf("%d\n", c);
 
-  // imprime_inordem(arv);
-
-
-  // Expressao
+  Arvore *arv = NULL;
   char expressao[100];
+  
+  // Recebendo a expressao
   fgets(expressao, sizeof(expressao), stdin);
 
   Pilha resultado = NPR(expressao);
+  // imprimirPilha(&resultado); // debug da pilha
 
-  imprimirPilha(&resultado);
+
+  arv = parseArvore(resultado.item);
+  
+  printf("Pre: ");
+  arvore_imprime_pre(arv);
+
+  printf("\nPos: ");
+  arvore_imprime_pos(arv);
+
+  printf("\nIn: ");
+  arvore_imprime_in(arv);
+  printf("\n");
 
   return 0;
 }

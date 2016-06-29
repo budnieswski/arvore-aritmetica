@@ -55,6 +55,10 @@ int prioridade(char operador)
 {
   switch(operador)
   {
+    case '^':
+      return 4;
+    break;
+    
     case '*':
     case '/':
       return 3;
@@ -89,6 +93,7 @@ Pilha NPR(char expressao[])
       case '-':
       case '*':
       case '/':
+      case '^':
         while(!empty(&P) && (prioridade(top(&P)) >= prioridade(expressao[i])) ) {
             push(&S, pop(&P));
         }
