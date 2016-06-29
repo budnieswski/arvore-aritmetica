@@ -44,7 +44,7 @@ int pop(Pilha *p){
     return p->item[p->topo];
 }
 
-void imprimirPilha(Pilha *p){
+void printPilha(Pilha *p){
     int i;
     for(i=0;i<p->topo;i++)
         printf("%c",p->item[i]);

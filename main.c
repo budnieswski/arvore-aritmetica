@@ -3,36 +3,61 @@
 #include <string.h>
 #include "pilha.h"
 #include "arvore.h"
+#include "lista.h"
 
 
 int main(int argc, char **argv)
 {
-  // char expression[] = {'A','B','C','+','*','D','/'}; // para testes
-
   // int c = ('2' - '0') + ('3' - '0');
   // printf("%d\n", c);
-
-  Arvore *arv = NULL;
-  char expressao[100];
   
-  // Recebendo a expressao
-  fgets(expressao, sizeof(expressao), stdin);
-
-  Pilha resultado = NPR(expressao);
-  // imprimirPilha(&resultado); // debug da pilha
+  Lista *lista = NULL;
+  int continuar = 1;
 
 
-  arv = parseArvore(resultado.item);
-  
-  printf("Pre: ");
-  arvore_imprime_pre(arv);
+  /*
+   * Lendo as expressoes, transformando em Polonesa e armazenando na lista */
+  do {
+    printf("Insira a expressao ou S para sair: \n");
 
-  printf("\nPos: ");
-  arvore_imprime_pos(arv);
+    // Recebendo a expressao
+    char expressao[100];
+    fgets(expressao, sizeof(expressao), stdin);
 
-  printf("\nIn: ");
-  arvore_imprime_in(arv);
-  printf("\n");
+    // Inserindo na lista de expressoes
+    if (strlen(expressao) >= 3 && expressao[0] != 'S') {
+      Pilha resultado = NPR(expressao);
+      addLista(&lista, resultado);
+    } else {
+      continuar = 0;
+    }
+
+  } while (continuar);
+
+
+  /*
+   * Processando a listagem da arvore */
+  Lista *aux;
+ 
+  if (lista == NULL) {
+    printf("Lista vazia\n");
+    return 0;
+  }
+
+  for (aux=lista; aux != NULL; aux = aux->prox) {
+    Arvore *arv = NULL;
+    arv = parseArvore( aux->expressao.item );
+
+    printf("\nPre: ");
+    arvore_imprime_pre(arv);
+
+    printf("\nPos: ");
+    arvore_imprime_pos(arv);
+
+    printf("\nIn: ");
+    arvore_imprime_in(arv);
+    printf("\n---------------------------------------\n\n");
+  }
 
   return 0;
 }
