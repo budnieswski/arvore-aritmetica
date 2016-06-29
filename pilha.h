@@ -2,7 +2,7 @@
 
 typedef struct Pilha
 {
-  char item[MAX];
+  int item[MAX];
   int topo;
 } Pilha;
 
@@ -44,10 +44,11 @@ int pop(Pilha *p){
     return p->item[p->topo];
 }
 
-void printPilha(Pilha *p){
+void printPilha(Pilha p){
     int i;
-    for(i=0;i<p->topo;i++)
-        printf("%c",p->item[i]);
+    for(i=0;i<p.topo;i++)
+        printf("%c",p.item[i]);
+        // printf("%c:%d - ",p.item[i],p.item[i]);
 }
 
 
@@ -55,21 +56,23 @@ int prioridade(char operador)
 {
   switch(operador)
   {
-    case '^':
+    case EXPO:
+    case LOG:
+    case SQRT:
       return 4;
     break;
     
-    case '*':
-    case '/':
+    case MULT: // *
+    case DIV: // /
       return 3;
     break;
 
-    case '+':
-    case '-':
+    case MAIS: // +
+    case MENOS: // -
       return 2;
     break;
 
-    case '(':
+    case PARENTESES_ABRE: // (
       return 1;
     break;
   }
@@ -85,42 +88,57 @@ Pilha NPR(char expressao[])
   P.topo = 0;
 
   int i;
-  for (i = 0; i < (strlen(expressao)-1); ++i)
+  int tamanho = strlen(expressao)-1;
+  for (i = 0; i < tamanho; i++)
   {
-    switch(expressao[i])
+    int exp = expressao[i];
+
+    // printf("Tamanho: %d\n", tamanho);
+
+    // if (exp=='l' && expressao[i+1]=='o' && expressao[i+2]=='g')
+    // {
+    //   exp = LOG;
+    //   i+=3;
+    //   tamanho -= 3;
+    // }
+
+    // printf("%c\n", exp);
+    switch(exp)
     {
-      case '+':
-      case '-':
-      case '*':
-      case '/':
-      case '^':
-        while(!empty(&P) && (prioridade(top(&P)) >= prioridade(expressao[i])) ) {
+      case MAIS: // +
+      case MENOS: // -
+      case MULT: // *
+      case DIV: // /
+      case EXPO: // ^
+      // case LOG:
+      // case SQRT:
+        while(!empty(&P) && (prioridade(top(&P)) >= prioridade(exp)) ) {
             push(&S, pop(&P));
         }
-        push(&P, expressao[i]);
+        push(&P, exp);
       break;
       
-      case '(':
-        push(&P, expressao[i]);
+      case PARENTESES_ABRE: // (
+        push(&P, exp);
       break;
 
-      case ')':
-        while(top(&P)!='(') {
+      case PARENTESES_FECHA: // )
+        while(top(&P)!=PARENTESES_ABRE) {
           push(&S, pop(&P));
         }
         pop(&P);
       break;
 
       default:
-        push(&S, expressao[i]);
+        push(&S, exp);
       break;
     }
 
     // Debug
     // printf("\n Pilha P: ");
-    // imprimirPilha(&P); // Sinais
+    // printPilha(P); // Sinais
     // printf("\n Pilha S: ");
-    // imprimirPilha(&S);
+    // printPilha(S);
     // printf("\n");
   }
 

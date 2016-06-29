@@ -1,6 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define LOG '!'
+#define SQRT '#'
+
+
+#define MAIS 43
+#define MENOS 45
+#define MULT 42
+#define DIV 47
+#define EXPO 94
+#define PARENTESES_ABRE 40
+#define PARENTESES_FECHA 41
+
 #include "pilha.h"
 #include "arvore.h"
 #include "lista.h"
@@ -13,7 +26,6 @@ int main(int argc, char **argv)
   
   Lista *lista = NULL;
   int continuar = 1;
-
 
   /*
    * Lendo as expressoes, transformando em Polonesa e armazenando na lista */
@@ -28,6 +40,9 @@ int main(int argc, char **argv)
     if (strlen(expressao) >= 3 && expressao[0] != 'S') {
       Pilha resultado = NPR(expressao);
       addLista(&lista, resultado);
+
+      // printPilha(resultado);
+      // printf("\n");
     } else {
       continuar = 0;
     }
@@ -46,7 +61,9 @@ int main(int argc, char **argv)
 
   for (aux=lista; aux != NULL; aux = aux->prox) {
     Arvore *arv = NULL;
-    arv = parseArvore( aux->expressao.item );
+    arv = parseArvore( &aux->expressao );
+
+    printf("\nCalculo da expressao: %d", arvore_calculo(arv));
 
     printf("\nPre: ");
     arvore_imprime_pre(arv);
