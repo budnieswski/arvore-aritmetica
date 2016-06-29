@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
-#define LOG '!'
+#define LOG '@'
 #define SQRT '#'
 
-
-#define MAIS 43
-#define MENOS 45
-#define MULT 42
-#define DIV 47
-#define EXPO 94
-#define PARENTESES_ABRE 40
-#define PARENTESES_FECHA 41
+#define MAIS '+'
+#define MENOS '-'
+#define MULT '*'
+#define DIV '/'
+#define EXPO '^'
+#define PARENTESES_ABRE '('
+#define PARENTESES_FECHA ')'
 
 #include "pilha.h"
 #include "arvore.h"
@@ -21,9 +21,6 @@
 
 int main(int argc, char **argv)
 {
-  // int c = ('2' - '0') + ('3' - '0');
-  // printf("%d\n", c);
-  
   Lista *lista = NULL;
   int continuar = 1;
 
@@ -40,9 +37,6 @@ int main(int argc, char **argv)
     if (strlen(expressao) >= 3 && expressao[0] != 'S') {
       Pilha resultado = NPR(expressao);
       addLista(&lista, resultado);
-
-      // printPilha(resultado);
-      // printf("\n");
     } else {
       continuar = 0;
     }

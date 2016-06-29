@@ -24,8 +24,7 @@ Arvore * criaArvore() {
 Arvore * parseArvore(Pilha *p) {
   
   Arvore *a = criaArvore();
-  int dado;
-  int tamanho = (sizeof(p->item)-2);
+  char dado;
 
   // Ultimo elemento    
   dado = pop(p);
@@ -80,35 +79,38 @@ void arvore_imprime_in (Arvore *arv) {
 int arvore_calculo (Arvore *arv) {
   if (!arv) return 0;
 
-  int result_esq = 0;
-  int result_dir = 0;
+  int result_esq;
+  int result_dir;
+
   int result = 0;
   
   result_esq = arvore_calculo( arv->esq );
   result_dir = arvore_calculo( arv->dir );
 
+
   switch (arv->dado) {
     case MAIS:
-      result = (result_esq - '0') + (result_dir - '0');
+      return result_esq + result_dir;
+    break;
 
-      printf("SOMANDO: %c+%c / RETORNO: %d\n", result_esq, result_dir, result);
-      return result;
-    break;
     case MENOS:
-      result = (result_esq - '0') - (result_dir - '0');
-      return result;
+      return result_esq - result_dir;
     break;
+
     case MULT:
-      result = (result_esq - '0') * (result_dir - '0');
-      
-      printf("MULTIPLICANDO: %c*%d / RETORNO: %d\n", result_esq, result_dir, result);
-      return result;
+      return result_esq * result_dir;
     break;
+
     case DIV:
-      result = (result_esq - '0') / (result_dir - '0');
-      printf("DIVIDINDO: %c/%c / RETORNO: %d\n", result_esq, result_dir, result);
-      return result;
+      return result_esq / result_dir;
     break;
-    default: return (int) arv->dado; break;
+
+    case EXPO:
+      return pow(result_esq, result_dir);
+    break;
+
+    default: // SEMPRE sera um operando em CHAR
+      return ((int)arv->dado - 48);
+    break;
   }
 }

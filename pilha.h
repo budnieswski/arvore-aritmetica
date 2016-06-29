@@ -2,7 +2,7 @@
 
 typedef struct Pilha
 {
-  int item[MAX];
+  char item[MAX];
   int topo;
 } Pilha;
 
@@ -28,7 +28,6 @@ int push(Pilha *p, char n){
     return p->topo;
 }
 
-
 int top(Pilha *p){
     if(empty(p))
         return 0;
@@ -51,28 +50,27 @@ void printPilha(Pilha p){
         // printf("%c:%d - ",p.item[i],p.item[i]);
 }
 
-
 int prioridade(char operador)
 {
   switch(operador)
   {
+    case MAIS:
+    case MENOS:
+      return 4;
+    break;
+
     case EXPO:
     case LOG:
     case SQRT:
-      return 4;
-    break;
-    
-    case MULT: // *
-    case DIV: // /
       return 3;
     break;
-
-    case MAIS: // +
-    case MENOS: // -
+    
+    case MULT:
+    case DIV:
       return 2;
     break;
 
-    case PARENTESES_ABRE: // (
+    case PARENTESES_ABRE:
       return 1;
     break;
   }
@@ -91,25 +89,13 @@ Pilha NPR(char expressao[])
   int tamanho = strlen(expressao)-1;
   for (i = 0; i < tamanho; i++)
   {
-    int exp = expressao[i];
+    char exp = expressao[i];
 
-    // printf("Tamanho: %d\n", tamanho);
-
-    // if (exp=='l' && expressao[i+1]=='o' && expressao[i+2]=='g')
-    // {
-    //   exp = LOG;
-    //   i+=3;
-    //   tamanho -= 3;
-    // }
-
-    // printf("%c\n", exp);
     switch(exp)
     {
-      case MAIS: // +
-      case MENOS: // -
-      case MULT: // *
-      case DIV: // /
-      case EXPO: // ^
+      case MAIS: case MENOS:
+      case MULT: case DIV:
+      case EXPO:
       // case LOG:
       // case SQRT:
         while(!empty(&P) && (prioridade(top(&P)) >= prioridade(exp)) ) {
@@ -118,11 +104,11 @@ Pilha NPR(char expressao[])
         push(&P, exp);
       break;
       
-      case PARENTESES_ABRE: // (
+      case PARENTESES_ABRE:
         push(&P, exp);
       break;
 
-      case PARENTESES_FECHA: // )
+      case PARENTESES_FECHA:
         while(top(&P)!=PARENTESES_ABRE) {
           push(&S, pop(&P));
         }
