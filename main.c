@@ -24,10 +24,12 @@ int main(int argc, char **argv)
   Lista *lista = NULL;
   int continuar = 1;
 
+  system("cls");
   /*
    * Lendo as expressoes, transformando em Polonesa e armazenando na lista */
+  printf("Insira a expressao ou S para sair\n");
   do {
-    printf("Insira a expressao ou S para sair: \n");
+    printf("Expressao: ");
 
     // Recebendo a expressao
     char expressao[100];
@@ -37,6 +39,7 @@ int main(int argc, char **argv)
     if (strlen(expressao) >= 3 && expressao[0] != 'S') {
       Pilha resultado = NPR(expressao);
       addLista(&lista, resultado);
+      // printPilha(resultado); printf("\n");
     } else {
       continuar = 0;
     }
@@ -53,20 +56,24 @@ int main(int argc, char **argv)
     return 0;
   }
 
+  printf("\n\n\n");
   for (aux=lista; aux != NULL; aux = aux->prox) {
     Arvore *arv = NULL;
     arv = parseArvore( &aux->expressao );
 
     printf("\nCalculo da expressao: %d", arvore_calculo(arv));
 
-    printf("\nPre: ");
+    printf("\nPre: [");
     arvore_imprime_pre(arv);
+    printf("]");
 
-    printf("\nPos: ");
+    printf("\nPos: [");
     arvore_imprime_pos(arv);
+    printf("]");
 
-    printf("\nIn: ");
+    printf("\nIn: [");
     arvore_imprime_in(arv);
+    printf("]");
     printf("\n---------------------------------------\n\n");
   }
 

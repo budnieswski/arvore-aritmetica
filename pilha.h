@@ -91,15 +91,25 @@ Pilha NPR(char expressao[])
   {
     char exp = expressao[i];
 
+    if (exp=='l' && expressao[i+1]=='o' && expressao[i+2]=='g')
+    {
+      exp = LOG;
+      i+=2;
+    }
+    else if (exp=='s' && expressao[i+1]=='q' && expressao[i+2]=='r' && expressao[i+3]=='t')
+    {
+      exp = SQRT;
+      i+=3;
+    }
+
     switch(exp)
     {
       case MAIS: case MENOS:
       case MULT: case DIV:
       case EXPO:
-      // case LOG:
-      // case SQRT:
+      case LOG: case SQRT:
         while(!empty(&P) && (prioridade(top(&P)) >= prioridade(exp)) ) {
-            push(&S, pop(&P));
+          push(&S, pop(&P));
         }
         push(&P, exp);
       break;

@@ -35,10 +35,15 @@ Arvore * parseArvore(Pilha *p) {
     case MAIS: case MENOS:
     case MULT: case DIV:
     case EXPO:
-    case LOG: case SQRT:
       a->dir = parseArvore( p );
       a->esq = parseArvore( p );
     break;
+
+    case LOG: case SQRT:
+      a->dir = parseArvore( p );
+      a->esq = NULL;
+    break;
+
     default:
       a->esq = NULL;
       a->dir = NULL;
@@ -87,26 +92,29 @@ int arvore_calculo (Arvore *arv) {
   result_esq = arvore_calculo( arv->esq );
   result_dir = arvore_calculo( arv->dir );
 
-
   switch (arv->dado) {
-    case MAIS:
+    case '+':
       return result_esq + result_dir;
     break;
 
-    case MENOS:
+    case '-':
       return result_esq - result_dir;
     break;
 
-    case MULT:
+    case '*':
       return result_esq * result_dir;
     break;
 
-    case DIV:
+    case '/':
       return result_esq / result_dir;
     break;
 
-    case EXPO:
-      return pow(result_esq, result_dir);
+    case LOG:
+      return round(log(result_dir));
+    break;
+
+    case SQRT:
+      return round(sqrt(result_dir));
     break;
 
     default: // SEMPRE sera um operando em CHAR
